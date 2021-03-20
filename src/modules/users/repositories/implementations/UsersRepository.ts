@@ -1,5 +1,5 @@
-import { User } from "../../model/User";
-import { IUsersRepository, ICreateUserDTO } from "../IUsersRepository";
+import { User } from '../../model/User';
+import { IUsersRepository, ICreateUserDTO } from '../IUsersRepository';
 
 class UsersRepository implements IUsersRepository {
   private users: User[];
@@ -19,23 +19,35 @@ class UsersRepository implements IUsersRepository {
   }
 
   create({ name, email }: ICreateUserDTO): User {
-    // Complete aqui
+    const user = new User();
+
+    user.name = name;
+    user.email = email;
+
+    this.users.push(user);
+
+    return user;
   }
 
   findById(id: string): User | undefined {
-    // Complete aqui
+    return this.users.find((user) => user.id === id);
   }
 
   findByEmail(email: string): User | undefined {
-    // Complete aqui
+    return this.users.find((user) => user.email === email);
   }
 
   turnAdmin(receivedUser: User): User {
-    // Complete aqui
+    const userIndex = this.users.findIndex((user) => user === receivedUser);
+
+    this.users[userIndex].admin = true;
+    this.users[userIndex].updated_at = new Date();
+
+    return this.users[userIndex];
   }
 
   list(): User[] {
-    // Complete aqui
+    return this.users;
   }
 }
 
